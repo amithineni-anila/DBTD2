@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>Sending_Anniversary_Mail</name>
+        <label>Sending Anniversary Mail</label>
+        <locationX>50</locationX>
+        <locationY>360</locationY>
+        <actionName>emailSimple</actionName>
+        <actionType>emailSimple</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>emailAddresses</name>
+            <value>
+                <stringValue>bodduluriprameela@gmail.com</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>senderAddress</name>
+            <value>
+                <stringValue>bodduluriprameela@gmail.com</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailSubject</name>
+            <value>
+                <stringValue>Anniversary Wishes</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailBody</name>
+            <value>
+                <elementReference>SendingAnniversaryMail</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>bccRecipientAddressList</name>
+            <value>
+                <stringValue>bodduluriprameela@gmail.com</stringValue>
+            </value>
+        </inputParameters>
+        <nameSegment>emailSimple</nameSegment>
+        <offset>0</offset>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+    <apiVersion>62.0</apiVersion>
+    <decisions>
+        <name>Comparing_dates</name>
+        <label>Comparing dates</label>
+        <locationX>182</locationX>
+        <locationY>252</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>yes</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>CheckingStartDatedayandmonth</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>CheckingTodatDateandMonth</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Sending_Anniversary_Mail</targetReference>
+            </connector>
+            <label>yes</label>
+        </rules>
+    </decisions>
+    <environments>Default</environments>
+    <formulas>
+        <name>CheckingStartDatedayandmonth</name>
+        <dataType>String</dataType>
+        <expression>TEXT(MONTH({!$Record.Start_Date__c})) &amp; &quot;-&quot; &amp; TEXT(DAY({!$Record.Start_Date__c}))</expression>
+    </formulas>
+    <formulas>
+        <name>CheckingTodatDateandMonth</name>
+        <dataType>String</dataType>
+        <expression>TEXT(MONTH(TODAY())) &amp; &quot;-&quot; &amp; TEXT(DAY(TODAY()))</expression>
+    </formulas>
+    <interviewLabel>Anniversary Wishes STF {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Anniversary Wishes STF</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <start>
+        <locationX>56</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Comparing_dates</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>IsActive</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <object>User</object>
+        <schedule>
+            <frequency>Daily</frequency>
+            <startDate>2025-01-22</startDate>
+            <startTime>01:00:00.000Z</startTime>
+        </schedule>
+        <triggerType>Scheduled</triggerType>
+    </start>
+    <status>Draft</status>
+    <textTemplates>
+        <name>SendingAnniversaryMail</name>
+        <isViewedAsPlainText>true</isViewedAsPlainText>
+        <text>Dear {!$Record.FirstName},
+Congratulations on your work anniversary! Your dedication and hard work inspire us every day.
+Here&apos;s to another year of success.
+Best regards,</text>
+    </textTemplates>
+</Flow>
