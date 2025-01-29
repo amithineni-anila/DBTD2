@@ -1,0 +1,16 @@
+<template>
+    <lightning-accordion>
+        <lightning-accordion-section name="Data Table" label="Data Table">
+            <lightning-datatable
+                key-field="Id"
+                data={accounts}
+                columns={columns}
+                onrowaction={handleRowAction}
+                sorted-by={sortedBy}
+                sorted-direction={sortedDirection}
+                onsort={handleSort}
+            >
+            </lightning-datatable>
+        </lightning-accordion-section>
+    </lightning-accordion>
+</template>
